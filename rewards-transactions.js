@@ -41,7 +41,7 @@ class BlockChain {
   constructor() {
     this.chain = [this.createGenesisBlock()];
     //proof-of-work
-    this.difficulty = 2;
+    this.difficulty = 4;
     this.pendingTransactions = [];
     this.miningReward = 100;
 
@@ -51,7 +51,10 @@ class BlockChain {
   }
 
   createGenesisBlock() {
-    return new Block("01/01/2021", "Genesis block", "0");
+    let tx = new Transaction(null, null, 0);
+    let txs = [];
+    txs.push(tx);
+    return new Block("01/01/2021", txs, null); 
   } 
 
   getDifficultyString() {
@@ -93,11 +96,13 @@ class BlockChain {
     let balance = 0;
     for (const block of this.chain) {
       for (const trans of block.transactions) {
-        if(trans.fromBalance === address) {
+        if(trans.fromAddress === address) {
           balance -= trans.amount;
+          console.log("Transaction: " + JSON.stringify(trans));
         }
-        if(trans.toBalance === address) {
+        if(trans.toAddress === address) {
           balance += trans.amount;
+          console.log("Transaction: " + JSON.stringify(trans));
         }
       }
     }
@@ -146,7 +151,7 @@ batesCoin.createTransaction(new Transaction('address3', 'address2', 3));
 console.log("Start miner...");
 batesCoin.minePendingTransactions("bates-miner");
 
-console.log("Balance of bates: " + batesCoin.getBalance("bates-miner"));
+console.log("Balance of bate-miners: " + batesCoin.getBalance("bates-miner"));
 //balance is 0!  Reward for mining is added to block for next transactions
 
 batesCoin.createTransaction(new Transaction('address4','address2',2));
@@ -154,5 +159,9 @@ batesCoin.createTransaction(new Transaction('address4','address2',2));
 console.log("Mining again...");
 batesCoin.minePendingTransactions("bates-miner");
 
-console.log("Balance of bates: " + batesCoin.getBalance("bates-miner"));
+console.log("Balance of bates-miner: " + batesCoin.getBalance("bates-miner"));
+console.log(JSON.stringify(batesCoin.chain));
 
+for(var i = 0; i < 5; i++) {
+  console.log("Balance address[" + i + "]: " + batesCoin.getBalance("address" + i));
+}

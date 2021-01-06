@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "crypto-js": "^4.0.0",
-    "performance-now": "^2.1.0"
+    "performance-now": "^2.1.0",
+    "elliptic": "^6.5.3",
+    "file-system": "^2.2.2",
+    "hashmap": "^2.4.0",
+    "yargs": "^16.2.0"
   }
 }
